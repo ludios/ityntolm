@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+sudo apt-get update -q
+
+sudo env \
+DEBIAN_FRONTEND=noninteractive \
+APT_LISTCHANGES_FRONTEND=none \
+apt-get \
+-o Dpkg::Options::="--force-confdef" \
+-o Dpkg::Options::="--force-confold" \
+--quiet --assume-yes --show-upgraded --verbose-versions \
+dist-upgrade
+
+sudo apt-get autoremove --quiet --assume-yes

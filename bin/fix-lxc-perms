@@ -1,1 +1,10 @@
-setfacl -m u:100000:x ~/ ~/.local ~/.local/share ~/.local/share/lxc ~/.local/share/lxc/*
+#!/bin/sh
+
+# Fix permissions so that you can turn on an unprivileged LXC container
+
+set -e
+
+my_username="$(id -u -n)"
+my_first_subuid="$(cat /etc/subuid | grep -P "^${my_username}:" | cut -f 2 -d ":")"
+
+setfacl -m "u:${my_first_subuid}:x" ~/ ~/.local ~/.local/share ~/.local/share/lxc ~/.local/share/lxc/*
