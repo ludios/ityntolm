@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+sudo lsof -d DEL 2> >(grep -v "^lsof: no pwd entry for UID ") | grep -v ' /dev/zero$' | sort -k 7n

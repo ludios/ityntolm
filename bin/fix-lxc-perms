@@ -1,0 +1,1 @@
+setfacl -m u:100000:x ~/ ~/.local ~/.local/share ~/.local/share/lxc ~/.local/share/lxc/*
