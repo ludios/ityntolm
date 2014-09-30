@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+# If no directory specified, use current directory
+root="${1:-.}"
+find "$root" -perm -2 ! -type l -ls
