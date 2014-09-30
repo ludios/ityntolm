@@ -2,8 +2,14 @@
 
 set -e
 
+if [ "$(id -u)" -ne "0" ]; then
+	echo "Warning: not running as root, some files may be missing." >&2
+fi
+
 # list all Linux map files that have been deleted (typically shared libraries after an upgrade)
 # filter out 'lsof: no pwd entry for UID ' spewed on machines with unprivileged LXC containers
 # filter out /dev/zero which seems to get replaced all the time
 # sort by last column, the filename
-sudo lsof -d DEL 2> >(grep -v "^lsof: no pwd entry for UID ") | grep -v ' /dev/zero$' | sort -k 7n
+lsof -d DEL 2> >(grep -v "^lsof: no pwd entry for UID ") | grep -v ' /dev/zero$' | sort -k 7n
+
+# To see regular unlinked files (not mapped files), use lsof-unlinked instead
