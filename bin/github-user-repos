@@ -1,0 +1,23 @@
+#!/usr/bin/python
+
+"""
+Takes a GitHub username and prints a URL for each repo the user owns
+"""
+
+import sys
+import json
+import urllib2
+
+def main():
+	user = sys.argv[1]
+	user = user.replace("https://github.com/", "", 1)
+	user = user.split("?", 1)[0]
+	for n in xrange(1, 1000):
+		data = json.loads(urllib2.urlopen("https://api.github.com/users/%s/repos?page=%s&per_page=100" % (user, n)).read())
+		if not data:
+			break
+		for r in data:
+			print r["html_url"]
+
+if __name__ == '__main__':
+	main()

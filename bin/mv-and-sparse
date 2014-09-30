@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Moves a file from $1 to $2 and writes a sparse file to $1 whose size and
-# mtime matches the original file, but is just a contentless file full of
-# NULLs.  Useful if someone is rsyncing a file to you and you want to
-# convince their rsync that you have the file despite having moved it.
+# Moves a file from $1 to $2 and writes a sparse file to $1 whose size,
+# mtime, and permissions match the original file, but is just a contentless
+# file full of NULLs.  Useful if someone is rsyncing a file to you and you
+# want to convince their rsync that you have the file despite having moved it.
 
 set -e
 
