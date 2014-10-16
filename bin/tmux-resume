@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Like screen -R, but don't create a new tmux session if there's nothing
+# to attach to.
+
+tmux ls | grep -vq ' (attached)$'
+if [ "$?" = 0 ]; then
+	tmux attach
+else
+	>&2 echo "All sessions already attached."
+fi
