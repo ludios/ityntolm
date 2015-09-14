@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export LESSOPEN="|lz4 -d %s"
+exec less "$@"
