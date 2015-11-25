@@ -2,6 +2,10 @@
 
 set -e
 
+# Free up disk space for upgrade
+sudo apt-get clean
+sudo apt-get autoremove --quiet --assume-yes
+
 sudo apt-get update -q
 
 sudo env \
