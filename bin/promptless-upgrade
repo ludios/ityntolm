@@ -11,6 +11,6 @@ apt-get \
 -o Dpkg::Options::="--force-confdef" \
 -o Dpkg::Options::="--force-confold" \
 --quiet --assume-yes --show-upgraded --verbose-versions \
-dist-upgrade
+dist-upgrade --no-install-recommends
 
 sudo apt-get autoremove --quiet --assume-yes
