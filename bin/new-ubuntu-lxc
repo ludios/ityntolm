@@ -3,5 +3,5 @@
 set -e
 
 name="$1"
-lxc-create -t download -n "$name" -- -d ubuntu -r trusty -a amd64
+lxc-create -t download -n "$name" -- -d ubuntu -r xenial -a amd64
 fix-lxc-perms
