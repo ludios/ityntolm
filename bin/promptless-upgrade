@@ -3,12 +3,12 @@
 set -e
 
 # Free up disk space for upgrade
-sudo apt-get clean
-sudo apt-get autoremove --quiet --assume-yes
+apt-get clean
+apt-get autoremove --quiet --assume-yes
 
-sudo apt-get update -q
+apt-get update -q
 
-sudo env \
+env \
 DEBIAN_FRONTEND=noninteractive \
 APT_LISTCHANGES_FRONTEND=none \
 apt-get \
@@ -17,4 +17,4 @@ apt-get \
 --quiet --assume-yes --show-upgraded --verbose-versions \
 dist-upgrade --no-install-recommends
 
-sudo apt-get autoremove --quiet --assume-yes
+apt-get autoremove --quiet --assume-yes
