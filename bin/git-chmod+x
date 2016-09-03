@@ -1,3 +1,0 @@
-# Helpful for setting the executable bit on Windows or on a CIFS mount
-
-git update-index --add --chmod=+x "$@"
