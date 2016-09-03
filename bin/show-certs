@@ -1,16 +1,3 @@
-#!/usr/bin/python -SB
+#!/bin/sh
 
-import argparse
-import subprocess
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--port", "-p", default=443)
-parser.add_argument("host")
-args = parser.parse_args()
-
-# TODO: Test IPv6 support
-
-p = subprocess.Popen(
-	["openssl", "s_client", "-showcerts", "-connect", args.host + ":" + str(args.port)],
-	stdin=subprocess.PIPE)
-p.communicate(input='')
+echo -n '' | openssl s_client -showcerts -connect $1:${2:-443}
