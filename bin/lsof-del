@@ -1,6 +1,7 @@
 #!/bin/bash
+# Note: need bash for the >() redirection, also for set -o pipefail
 
-set -e
+set -euo pipefail
 
 if [ "$(id -u)" -ne "0" ]; then
 	echo "Warning: not running as root, some files may be missing." >&2
