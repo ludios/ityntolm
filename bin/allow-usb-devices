@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for f in /sys/bus/usb/devices/usb*/authorized_default; do
+    echo 1 > $f
+done
