@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # aginir: Apt Get Install No Install Recommends
 
 sudo apt-get install --no-install-recommends "$@"
