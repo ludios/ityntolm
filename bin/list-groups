@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sort -nt: -k3 < /etc/group | column -nts:
