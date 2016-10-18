@@ -1,0 +1,4 @@
+#!/bin/sh
+
+vmware-modconfig --console --install-all
+chmod -R a+rX /lib/modules
