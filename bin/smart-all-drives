@@ -1,0 +1,3 @@
+#!/bin/sh
+
+for i in /dev/sd?; do smartctl --all $i | grep -P '(overall|_Sector)'; done
