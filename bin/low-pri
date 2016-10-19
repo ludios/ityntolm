@@ -1,0 +1,6 @@
+#!/bin/zsh
+# This needs to be zsh for "${(q)@}" support
+
+# Run some command at the lowest CPU and IO priority.
+
+eval nice -n 19 ionice -c 3 "${(q)@}"
