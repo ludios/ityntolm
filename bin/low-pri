@@ -3,4 +3,4 @@
 
 # Run some command at the lowest CPU and IO priority.
 
-eval nice -n 19 ionice -c 3 "${(q)@}"
+eval exec nice -n 19 ionice -c 3 "${(q)@}"
