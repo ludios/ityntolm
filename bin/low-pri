@@ -4,5 +4,4 @@
 
 set -eu
 
-cmd=("$@")
-eval exec nice -n 19 ionice -c 3 "$(printf '%q ' "${cmd[@]}")"
+eval exec nice -n 19 ionice -c 3 "$(printf '%q ' "$@")"
