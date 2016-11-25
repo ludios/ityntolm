@@ -6,4 +6,7 @@ while [ $status -ne 0 ]; do
     echo "Waiting for network..."
     ping -q -W $ping_timeout -c 1 8.8.8.8 > /dev/null
     status=$?
+    if [ $status -ne 0 ]; then
+        sleep 1
+    fi
 done
