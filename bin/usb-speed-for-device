@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Takes a path pointing to a block device (e.g. /dev/sdc) and writes
+# to stdout the speed of its USB device, in megabits per second.
+#
+# Useful for ensuring that a USB 3 device is running at 5000 mbit/s
+# and not 480 mbit/s (e.g. if it were plugged in slowly).
+
+set -eu -o pipefail
+
+device=$1
+hw_path=/sys/block/$(readlink "/sys/block/$(basename "$device")")
+while [[ $hw_path != "/sys/block" ]]; do
+	parent=$(dirname -- "$hw_path")
+	if [[ -f "$parent/speed" ]]; then
+		cat -- "$parent/speed"
+		exit 0
+	fi
+	hw_path=$parent
+done
+
+exit 1
