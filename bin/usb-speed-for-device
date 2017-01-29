@@ -9,7 +9,7 @@
 set -eu -o pipefail
 
 device=$1
-hw_path=/sys/block/$(readlink "/sys/block/$(basename "$device")")
+hw_path=/sys/block/$(readlink -- "/sys/block/$(basename -- "$device")")
 while [[ $hw_path != "/sys/block" ]]; do
 	parent=$(dirname -- "$hw_path")
 	if [[ -f "$parent/speed" ]]; then
