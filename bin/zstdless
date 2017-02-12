@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export LESSOPEN="|zstdcat %s"
+exec less "$@"
