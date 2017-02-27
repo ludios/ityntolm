@@ -4,4 +4,4 @@
 
 set -eu
 
-eval exec nice -n 19 ionice -c 3 "$(printf '%q ' "$@")"
+exec nice -n 19 ionice -c 3 "$@"
