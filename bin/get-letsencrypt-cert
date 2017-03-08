@@ -66,7 +66,7 @@ acme-tiny \
 umask -- "$old_umask"
 
 cat -- \
-	"$signed_crt_file"
+	"$signed_crt_file" \
 	"$intermediate_certs_file" \
 	> "$output_pem"
 
