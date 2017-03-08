@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Generates a CSR (certificate signing request) for a domain; gets a
+# certificate for it from Let's Encrypt; writes a .pem file with the
+# certificate and intermediate certs.
+#
+# See below for arguments.
+#
+# Account key and domain key will be created if they don't already exist.
+#
+# Note that you are responsible for telling the web server to reload after
+# the new .pem is written. (e.g. `systemctl reload nginx`)
+#
+# Requires: acme-tiny openssl wget
+
+set -eu
+
+# Arguments:
+
+account_key=$1
+domain_key=$2
+web_directory=$3
+subject_alt_name=$4 # e.g. "DNS:example.com,DNS:www.example.com"
+output_pem=$5
+
+#
+
+well_known=$web_directory/.well-known
+csr_file=$(mktemp --tmpdir csr-XXXXXXXX)
+
+intermediate_certs_file=$(mktemp --tmpdir lets-encrypt-intermediate-XXXXXXXX.pem)
+wget -q -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > "$intermediate_certs_file"
+
+signed_crt_file=$(mktemp --tmpdir signed-XXXXXXXX.crt)
+
+# Generate account key if it doesn't exist
+if [[ ! -f "$account_key" ]]; then
+	echo "Generating new Let's Encrypt account key..."
+	mkdir -p -- "$(dirname -- "$account_key")"
+	openssl genrsa 2048 > "$account_key"
+fi
+
+# Generate domain key if it doesn't exist
+if [[ ! -f "$domain_key" ]]; then
+	echo "Generating new domain key..."
+	mkdir -p -- "$(dirname -- "$domain_key")"
+	openssl genrsa 2048 > "$domain_key"
+fi
+
+openssl req -new -sha256 -key "$domain_key" -subj "/" -reqexts SAN \
+	-config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$subject_alt_name")) \
+	> "$csr_file"
+mkdir -p      -- "$well_known"/acme-challenge
+chmod -R a+rX -- "$well_known"
+umask 000
+acme-tiny --account-key "$account_key" --csr "$csr_file" --acme-dir "$well_known"/acme-challenge > "$signed_crt_file"
+umask 027
+
+cat -- "$signed_crt_file" "$intermediate_certs_file" > "$output_pem"
+rm -rf -- \
+	"$well_known"/acme-challenge \
+	"$csr_file" \
+	"$intermediate_certs_file" \
+	"$signed_crt_file"
