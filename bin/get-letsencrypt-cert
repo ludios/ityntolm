@@ -60,12 +60,17 @@ old_umask=$(umask)
 umask -- 000
 acme-tiny \
 	--account-key "$account_key" \
-	--csr "$csr_file" \
-	--acme-dir "$well_known"/acme-challenge \
+	--csr         "$csr_file" \
+	--acme-dir    "$well_known"/acme-challenge \
 	> "$signed_crt_file"
 umask -- "$old_umask"
 
-cat -- "$signed_crt_file" "$intermediate_certs_file" > "$output_pem"
+cat -- \
+	"$signed_crt_file"
+	"$intermediate_certs_file" \
+	> "$output_pem"
+
+# Cleanup
 rm -rf -- "$well_known"/acme-challenge \
 rm -f  -- \
 	"$csr_file" \
