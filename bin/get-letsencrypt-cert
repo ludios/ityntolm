@@ -47,18 +47,27 @@ if [[ ! -f "$domain_key" ]]; then
 	openssl genrsa 2048 > "$domain_key"
 fi
 
+# Generate the CSR
 openssl req -new -sha256 -key "$domain_key" -subj "/" -reqexts SAN \
 	-config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$subject_alt_name")) \
 	> "$csr_file"
+
 mkdir -p      -- "$well_known"/acme-challenge
 chmod -R a+rX -- "$well_known"
-umask 000
-acme-tiny --account-key "$account_key" --csr "$csr_file" --acme-dir "$well_known"/acme-challenge > "$signed_crt_file"
-umask 027
+old_umask=$(umask)
+# Our current umask may be too restrictive for the ACME challenge file to be
+# readable by the web server, so temporarily turn off our umask.
+umask -- 000
+acme-tiny \
+	--account-key "$account_key" \
+	--csr "$csr_file" \
+	--acme-dir "$well_known"/acme-challenge \
+	> "$signed_crt_file"
+umask -- "$old_umask"
 
 cat -- "$signed_crt_file" "$intermediate_certs_file" > "$output_pem"
-rm -rf -- \
-	"$well_known"/acme-challenge \
+rm -rf -- "$well_known"/acme-challenge \
+rm -f  -- \
 	"$csr_file" \
 	"$intermediate_certs_file" \
 	"$signed_crt_file"
