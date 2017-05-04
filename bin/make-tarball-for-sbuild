@@ -5,7 +5,7 @@ set -eu -o pipefail
 DIR=$1
 cd -- "$DIR"
 PACKAGE=$(dpkg-parsechangelog --show-field Source)
-# Strip off the -N at the end because we need the upstream version
-VERSION=$(dpkg-parsechangelog --show-field Version | sed -rne 's,^([^-]+).*,\1,p')
+# Strip off the very last -N because we need to make a tarball with the upstream version
+VERSION=$(dpkg-parsechangelog --show-field Version | sed -r 's,\-[^-]+$,,')
 shopt -s dotglob
 tar -c * | gzip -1 > ../"$PACKAGE"_"$VERSION".orig.tar.gz
