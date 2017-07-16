@@ -2,6 +2,6 @@
 
 for drive in /dev/sd?; do
     echo "$drive"
-    smartctl --all "$drive" | grep -P '(overall|_Sector)'
+    smartctl --all "$drive" | grep -P '(overall|_Sector|Error)'
     echo
 done
