@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
+set -eu
+
+# Our current umask, if restrictive, will cause vmware-modconfig to write
+# modules unreadable by regular users.
+umask 000
 vmware-modconfig --console --install-all
-chmod -R a+rX /lib/modules
