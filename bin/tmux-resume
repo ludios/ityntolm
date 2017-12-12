@@ -4,15 +4,17 @@
 # to attach to.
 #
 # If given an argument, run `tmux attach -t ARGUMENT` instead of attaching
-# to the first unattached session.
+# to the highest-numbered unattached session.
+
+set -o pipefail
 
 if [ -n "$1" ]; then
 	exec tmux attach -t "$1"
 fi
 
-tmux ls | grep -vq ' (attached)$'
+session=$(tmux ls | grep -v ' (attached)$' | sort -rn | head -n 1 | cut -f 1 -d :)
 if [ "$?" = 0 ]; then
-    exec tmux attach
+    exec tmux attach -t "$session"
 else
     >&2 echo "All sessions already attached."
 fi
