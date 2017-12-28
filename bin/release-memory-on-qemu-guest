@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Manually trigger the virtio balloon driver on a virt-manager QEMU guest,
+# so that we can release memory back to us (the host) *before* we're under
+# memory pressure.
+
+set -eu
+
+domain=$1
+# How many MB to temporarily reduce the guest memory to; don't set this too
+# low or the OOM killer will start killing.
+reduced_memory=$2
+
+hmp() {
+	virsh --connect qemu:///system qemu-monitor-command --domain "$domain" --hmp "$1"
+}
+
+original_memory=$(hmp "info balloon" | grep = | cut -d '=' -f 2)
+hmp "balloon $reduced_memory" > /dev/null
+# Wait for the balloon driver to release some memory before setting it back
+sleep 2
+hmp "balloon $original_memory" > /dev/null
