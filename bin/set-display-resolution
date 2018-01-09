@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -eu
+
+
+set -eu -o verbose
 
 screen=$1
 width=$2
@@ -8,6 +10,6 @@ height=$3
 refresh=$4
 modeline=$(gtf $width $height $refresh | grep -o 'Modeline .*' | cut -f 3- -d ' ')
 # 2> /dev/null to ignore cryptic complaint about mode already existing
-xrandr --newmode                  ${width}x${height}@${refresh} $modeline 2> /dev/null
-xrandr --addmode "$screen"        ${width}x${height}@${refresh}
+xrandr --newmode                  ${width}x${height}@${refresh} $modeline 2> /dev/null || true
+xrandr --addmode "$screen"        ${width}x${height}@${refresh} || true
 xrandr --output  "$screen" --mode ${width}x${height}@${refresh}
