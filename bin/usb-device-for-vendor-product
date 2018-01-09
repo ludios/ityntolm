@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+vendor_product=$1
+
+match=$(lsusb | fgrep -m 1 " ID $vendor_product ")
+bus=$(   echo -E "$match" | grep -o -P '^Bus \d+'            | cut -f 2 -d ' ')
+device=$(echo -E "$match" | grep -o -P '^Bus \d+ Device \d+' | cut -f 4 -d ' ')
+echo /dev/bus/usb/$bus/$device
