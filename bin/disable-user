@@ -1,3 +1,0 @@
-#!/bin/sh
-
-usermod --lock --shell /bin/false --comment "Disabled but kept to prevent UID recycling" "$1"

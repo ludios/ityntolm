@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# apt-get autoremove --purge, but also remove packages that are mere Recommends
-# or Suggests (not actually listed as a Depends of another package).
-
-sudo apt-get autoremove \
-	-o APT::AutoRemove::RecommendsImportant=false \
-	-o APT::AutoRemove::SuggestsImportant=false \
-	--purge "$@"

@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Use poweroff because systemd is sometimes unable to bring down the system
-# and instead hangs forever.
-timeout 90s -k 120s sync
-timeout 30s -k  45s sync
-poweroff --no-wall --no-wtmp --force

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-dpkg -l | awk '$1 == "rc" { print $2; }'

@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# If you have an ~/.ssh/config with a ControlMaster setup, all ssh connections
-# to a host will be multiplexed, including bulk transfers that will increase
-# the latency of interactive sessions.  This program simply calls rsync with
-# -e "ssh -S none" to avoid multiplexing with other ssh sessions.
-#
-# This does not use exec so that bulk-rsync processes can be easily identified.
-rsync -e "ssh -S none" "$@"

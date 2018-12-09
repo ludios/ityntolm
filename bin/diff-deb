@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# Requires:
-# apt-get install --no-install-recommends devscripts wdiff
-
-debdiff --control --controlfiles ALL --wt "$@"
