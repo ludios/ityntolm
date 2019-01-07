@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Usage:
+# vm-usb-device attach windows10 046d:c048
+# vm-usb-device detach windows10 046d:c048
+# (use lsusb to get vendor:product id)
+
+action=$1
+vmname=$2
+device=(${3//:/ })
+xml_name=/tmp/device-${device[0]}:${device[1]}.xml
+
+echo "\
+<hostdev mode='subsystem' type='usb'>
+	<source>
+		<vendor  id='0x${device[0]}'/>
+		<product id='0x${device[1]}'/>
+	</source>
+</hostdev>" > $xml_name
+
+virsh --quiet --connect qemu:///system "$action"-device "$vmname" "$xml_name"
