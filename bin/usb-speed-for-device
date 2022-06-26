@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Takes a path pointing to a block device (e.g. /dev/sdc) and writes
 # to stdout the speed of its USB device, in megabits per second.

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Manually trigger the virtio balloon driver on a virt-manager QEMU guest,
 # so that we can release memory back to us (the host) *before* we're under

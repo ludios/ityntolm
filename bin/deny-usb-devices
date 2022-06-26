@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 for f in /sys/bus/usb/devices/usb*/authorized_default; do
     echo 0 > $f
