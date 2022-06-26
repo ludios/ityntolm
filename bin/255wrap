@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Run the command in the arguments and turn any non-0 exit code
+# into a 255 exit code.  This is useful when using xargs because
+# xargs stops itself only on exit code 255 from the subprocess,
+# and not any other exit code.
+#
+# Remember to add "255wrap" before the subprocess, not the "xargs"!
+
+"$@"
+
+if [[ $? -ne 0 ]]; then
+	exit 255
+fi
